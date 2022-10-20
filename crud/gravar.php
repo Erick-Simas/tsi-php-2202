@@ -1,32 +1,53 @@
 <?php
-//require_once requere aquilo que você pediu, somente uma vez. Estamos utilizando para buscar o código e conectar ao SGBD
-require_once '../bancoDeDados/conecta.php';
+
+//BUSCANDO O COD DA CONEXAO COM O BANCO DE DADOS
+
+require_once '../BancoDeDados/conecta.php';
+//include(); incluir 
+//include_once(); nao gera erro fatal se nao existir
+
+// DADOS DO HTML
 
 $nome = $_POST['nome'];
 $turno = $_POST['turno'];
 $inicio = $_POST['inicio'];
 
-
-$consulta = $bd -> prepare('INSERT INTO alunos
-                    (nome, turno, inicio)
-                    VALUE (:nome, :turno, :inicio)');
-/*Estamos adicionando com os valores o nome, turno e inicio. INSERT INTO serve para inserir na tabelaa que colocarmos o nome após ela, VALUES para adicionar o valor na inserção(os dados), porém neste momento, utilizamos para colocarmos rótulos para utilizarmos a funcionalidade abaixo */
-
-$consulta -> bindParam('nome', $nome);
-$consulta -> bindParam ('turno', $turno);
-$consulta -> bindParam('inicio', $inicio);
+$consulta = $bd->prepare('INSERT INTO alunos
+                        (nome, turno, inicio)
+                        VALUES 
+                        (:nome ,:turno, :inicio)');
 /*
-    A função $consulta->bimdParam() substitui os rótulos (ex.: ":nome") pelos dados inseguros
+o objstmt esta retornando um array que contem um
+ pre consulta no banco de dados (sem os dados do usuario)
+ ----
+ A funcao $bd->prepare() retorna
+ outra variavel (objeto), essa outra 
+ variavel consegue juntar os dados 
+ do usuario com consulta SQL
 */
 
-if($consulta->execute()){
-    echo "Gravou com sucesso";
-}
-else{
-    echo "Erro ao gravar no banco de dados";
-}
-//executa a consulta no banco de dados
+$consulta->bindParam('nome', $nome);
+$consulta->bindParam('turno', $turno);
+$consulta->bindParam('inicio', $inicio);
 
-//Isso tudo fará com que grave a informação do formuário entre no banco de dados
+/*
 
-                
+'procurar', $substituirPor
+
+A funcao $consulta->bindParam() substitui
+os rotulos (ex.: ":nome") pelos dados inseguros
+ */
+
+ if( $consulta->execute()){
+
+    echo "Gravado com sucesso!";
+
+ }else{
+
+    echo "ERRO ao gravar no banco de dados";
+
+ }
+
+ //Finalmente executamos a consulta no BD
+
+ include 'index.php';

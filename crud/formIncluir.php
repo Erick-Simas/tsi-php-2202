@@ -21,7 +21,7 @@
         <label for="inicio">inicio</label>
         <input type="date" name="inicio" id="inicio">
         <br>
-        <input type="submit" value="gravar">
+        <input class="btn" type="submit" value="gravar">
     </form>
 </body>
 </html>
