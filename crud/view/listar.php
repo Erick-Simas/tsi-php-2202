@@ -8,28 +8,74 @@
     <title>Listar</title>
 </head>
 <body>
-<a href="formIncluir.php"><button class="btn">Novo Aluno</button></a>
-    <table border="1">
-        <tr>
-            <td>ID</td>
-            <td>Nome</td>
-            <td>Turno</td>
-            <td>Inicio</td>
-            <td>Ações</td>
-        </tr>
-
+    <div class="container">
         <?php
-        foreach($alunos as $aluno){
+        if( isset($gravou) ){
 
-    echo " <tr>
-                <td>{$aluno['id']}</td>
-                <td>{$aluno['nome']}</td>
-                <td>{$aluno['turno']}</td>
-                <td>{$aluno['inicio']}</td>
-    
-            </tr>";
+            if( $gravou ){
+                echo '  <div class="alert alert-danger" role="alert">
+                            Erro ao tentar gravar o aluno!
+                        </div>';
+            }else{
+                echo '  <div class="alert alert-success" role="alert">
+                            Aluno gravado com sucesso!
+                        </div>';
+            } 
+        }
+
+        if( isset($apagou) ){
+            
+            if( $apagou ){
+                echo '  <div class="alert alert-danger" role="alert">
+                            Erro ao tentar apagar o aluno!
+                        </div>';
+            }else{
+                echo '  <div class="alert alert-success" role="alert">
+                            Aluno apagado com sucesso!
+                        </div>';
+            } 
         }
         ?>
-    </table>;
+    <form method='POST'>
+        <table class="table">
+            <thead>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Turno</th>
+                <th>Início</th>
+                <th>Ações</th>
+            </thead>
+            <?php
+            foreach($alunos as $aluno){
+                echo "  <tr>
+                            <td>{$aluno['id']}</td>
+                            <td>{$aluno['nome']}</td>
+                            <td>{$aluno['turno']}</td>
+                            <td>{$aluno['inicio']}</td>
+                            <td>
+                            <button 
+                            class='btn btn-danger'
+                            formaction='apagar.php'
+                            name= 'id'
+                            value= '{$aluno['id']}'> 
+                           apagar
+                           </button>
+                            </td>
+                            <td>
+                            <button 
+                            class='btn'
+                            formaction='editar.php'
+                            name= 'id'
+                            value= '{$aluno['id']}'> 
+                           editar
+                           </button>
+                            </td>
+                        </tr>";  
+            }   
+            ?>
+        </table>
+        </form>
+        <a href="formIncluir.php"><button class='btn'>Novo Aluno</button></a>
+    </div>
 </body>
-</html> 
+</html>
